@@ -1,0 +1,265 @@
+---
+title: "Entity-Relationship Diagrams"
+author: "Venkata Rajesh, Gnaneshwar Reddy, Sathwik Reddy, Mahesh Patel"
+format: html
+---
+
+# 1. Library Management System
+
+## Chen Notation (Graphviz)
+```{dot}
+digraph LibraryManagement {
+    node [shape=ellipse, style=filled, fillcolor=lightyellow];
+
+    // Entities
+    Book [shape=box, fillcolor=lightblue];
+    Member [shape=box, fillcolor=lightblue];
+    Loan [shape=box, fillcolor=lightgreen];
+
+    // Attributes
+    bookID [label="bookID (PK)"];
+    title [label="title"];
+    author [label="author"];
+    
+    memberID [label="memberID (PK)"];
+    name [label="name"];
+    membershipDate [label="membershipDate"];
+
+    loanID [label="loanID (PK)"];
+    loanDate [label="loanDate"];
+    returnDate [label="returnDate"];
+
+    // Relationships
+    Borrows [shape=diamond, label="Borrows", fillcolor=orange];
+
+    // Connecting Attributes
+    Book -> bookID;
+    Book -> title;
+    Book -> author;
+    
+    Member -> memberID;
+    Member -> name;
+    Member -> membershipDate;
+
+    Loan -> loanID;
+    Loan -> loanDate;
+    Loan -> returnDate;
+
+    // Connecting Entities with Relationships
+    Member -> Borrows;
+    Borrows -> Book;
+    Borrows -> Loan;
+}
+```
+
+This diagram illustrates the relationships within a library system where members borrow books. Each loan captures transaction details, including borrowing and return dates.
+
+## Crow’s Foot Notation (Mermaid)
+
+```{mermaid}
+erDiagram
+    BOOK {
+        int bookID PK
+        string title
+        string author
+    }
+    MEMBER {
+        int memberID PK
+        string name
+        date membershipDate
+    }
+    LOAN {
+        int loanID PK
+        date loanDate
+        date returnDate
+    }
+```
+
+### Entities & Attributes
+- *Book* (BookID PK, Title, Author)
+- *Member* (MemberID PK, Name, MembershipDate)
+- *Loan* (LoanID PK, LoanDate, ReturnDate, MemberID FK, BookID FK)
+
+---
+
+# 2. School Course Enrollment System
+
+## Chen Notation (Graphviz)
+
+```{dot}
+digraph SchoolEnrollment {
+    node [shape=ellipse, style=filled, fillcolor=lightyellow];
+
+    // Entities
+    Student [shape=box, fillcolor=lightblue];
+    Course [shape=box, fillcolor=lightblue];
+    Enrollment [shape=box, fillcolor=lightgreen];
+
+    // Attributes
+    studentID [label="studentID (PK)"];
+    studentName [label="name"];
+    enrollmentDate [label="enrollmentDate"];
+    
+    courseID [label="courseID (PK)"];
+    title [label="title"];
+    credits [label="credits"];
+
+    enrollmentID [label="enrollmentID (PK)"];
+    grade [label="grade"];
+
+    // Relationships
+    Enrolls [shape=diamond, label="Enrolls", fillcolor=orange];
+
+    // Connecting Attributes
+    Student -> studentID;
+    Student -> studentName;
+    Student -> enrollmentDate;
+
+    Course -> courseID;
+    Course -> title;
+    Course -> credits;
+
+    Enrollment -> enrollmentID;
+    Enrollment -> grade;
+
+    // Connecting Entities with Relationships
+    Student -> Enrolls;
+    Enrolls -> Course;
+    Enrolls -> Enrollment;
+}
+```
+
+This ER diagram models the structure of a school course enrollment system. Students enroll in courses, and each enrollment records details such as the enrollment date and status.
+
+## Crow’s Foot Notation (Mermaid)
+
+```{mermaid}
+erDiagram
+    STUDENT {
+        int studentID PK
+        string name
+        date enrollmentDate
+    }
+    COURSE {
+        int courseID PK
+        string title
+        int credits
+    }
+    ENROLLMENT {
+        int enrollmentID PK
+        date enrollmentDate
+        string grade
+        int studentID FK
+        int courseID FK
+    }
+```
+
+### Relation Set Schema
+- *Student* (StudentID PK, Name, EnrollmentDate)
+- *Course* (CourseID PK, Title, Credits)
+- *Enrollment* (EnrollmentID PK, EnrollmentDate, Grade, StudentID FK, CourseID FK)
+
+---
+
+# 3. Hotel Booking System
+
+## Chen Notation (Graphviz)
+
+```{dot}
+digraph HotelBooking {
+    node [shape=ellipse, style=filled, fillcolor=lightyellow];
+
+    // Entities
+    Room [shape=box, fillcolor=lightblue];
+    Guest [shape=box, fillcolor=lightblue];
+    Booking [shape=box, fillcolor=lightgreen];
+
+    // Attributes
+    roomNumber [label="roomNumber (PK)"];
+    roomType [label="type"];
+    rate [label="rate"];
+    
+    guestID [label="guestID (PK)"];
+    guestName [label="name"];
+    contactInfo [label="contactInfo"];
+
+    bookingID [label="bookingID (PK)"];
+    checkInDate [label="checkInDate"];
+    checkOutDate [label="checkOutDate"];
+
+    // Relationships
+    Books [shape=diamond, label="Books", fillcolor=orange];
+
+    // Connecting Attributes
+    Room -> roomNumber;
+    Room -> roomType;
+    Room -> rate;
+    
+    Guest -> guestID;
+    Guest -> guestName;
+    Guest -> contactInfo;
+
+    Booking -> bookingID;
+    Booking -> checkInDate;
+    Booking -> checkOutDate;
+
+    // Connecting Entities with Relationships
+    Guest -> Books;
+    Books -> Room;
+    Books -> Booking;
+}
+```
+
+This ER diagram shows a hotel booking system, where guests book rooms. Each booking records details such as booking ID and check-in/check-out dates.
+
+## Crow’s Foot Notation (Mermaid)
+
+```{mermaid}
+erDiagram
+    ROOM {
+        int roomNumber PK
+        string type
+        float rate
+    }
+    GUEST {
+        int guestID PK
+        string name
+        string contactInfo
+    }
+    BOOKING {
+        int bookingID PK
+        date checkInDate
+        date checkOutDate
+        int roomNumber FK
+        int guestID FK
+    }
+```
+
+### Relation Set Schema
+- *Room* (RoomNumber PK, Type, Rate)
+- *Guest* (GuestID PK, Name, ContactInfo)
+- *Booking* (BookingID PK, CheckInDate, CheckOutDate, GuestID FK, RoomNumber FK)
+
+---
+
+# Design Considerations
+
+## Weak Entities
+- *Library Management System*: The Loan entity is dependent on both the Book and Member entities, making it a weak entity.
+- *Hotel Booking System*: The Booking entity depends on both the Room and Guest entities, making it a weak entity.
+- *Sports Tournament Management System*: The Match entity is a weak entity, dependent on Teams for its existence.
+
+## Composite Attributes
+- *Library Management System*: Avoided composite attributes for simplicity and to maintain relational integrity.
+- *Hotel Booking System*: Used simple attributes for better clarity and normalization.
+- *Sports Tournament Management System*: Separate attributes were used instead of composite ones to avoid redundancy.
+
+## Multivalued Attributes
+- *Library Management System*: The many-to-many relationship between Books and Members is modeled through the Loan entity rather than a multivalued attribute.
+- *Hotel Booking System*: Clear relationships between Guests and Bookings were modeled instead of multivalued attributes.
+- *Sports Tournament Management System*: Team Members were handled through a separate relation instead of a multivalued attribute.
+
+## Cardinality and Participation
+- *Library Management System*: One Member can borrow many Books, and each Loan is linked to a specific Book and Member.
+- *Hotel Booking System*: A Guest can make multiple Bookings, and a Room can have multiple Bookings, but each Booking is linked to one Guest and one Room.
+- *Sports Tournament Management System*: Matches involve two Teams in a Many-to-Many relationship, while Referees officiate Matches in a One-to-Many relationship.
